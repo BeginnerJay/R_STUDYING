@@ -47,7 +47,6 @@ Initial <- function() {
 }
 Initial()
 
-
 Crawl <- function(company, page) {
   company <- as.character(company)
   basic_url <- paste0('https://finance.naver.com/item/sise_day.nhn?code=',company,'&page=')
