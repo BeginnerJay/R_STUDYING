@@ -3,8 +3,12 @@
 ## Create the predicted probabilities from the SMS classifier built in Chapter 4.
 ## NOTE: THIS SECTION WILL NOT RUN WITHOUT RUNNING THE CHAPTER 4 CODE TO CREATE THE SMS CLASSIFIER!
 
+# 예측 정확도가 성능을 측정하는데 충분치 않은 이유와, 대신 사용할 수 있는 성능 척도
+# 처음 보는 케이스에 대한 모델의 예측 능력을 성능 척도에 합리적으로 반영하는 방법
+# 지금까지 여러 장에서 다뤘던 예측 모델에, 이런 유용한 척도와 방법들을 적용하기 위한 R 사용법
+
 # obtain the predicted probabilities
-sms_test_prob <- predict(sms_classifier, sms_test, type = "raw")
+sms_test_prob <- predict(sms_classifier, sms_test, type = "raw") # 나이브 베이즈 예측 확률 측ㅈ
 head(sms_test_prob)
 
 # combine the results into a data frame
@@ -25,10 +29,10 @@ head(sms_results)
 # test cases where the model is less confident
 head(subset(sms_results, prob_spam > 0.40 & prob_spam < 0.60))
 
-# test cases where the model was wrong
+# test cases where the model was wrong정
 head(subset(sms_results, actual_type != predict_type))
 
-# specifying vectors
+# specifying vectors. 횟수 나타내는 ㅍ
 table(sms_results$actual_type, sms_results$predict_type)
 
 # alternative solution using the formula interface (not shown in book)
@@ -46,7 +50,9 @@ CrossTable(sms_results$actual_type, sms_results$predict_type)
 # error rate = 1 - accuracy
 1 - 0.9748201
 
-## Beyond accuracy: other performance measures ----
+## Beyond accuracy: other performance measures ----표
+# 모델이 positive 클래스를 분류하는 능력을 성능 척도로 제공 -> positive parameter 명시 필요.
+# 이 sms 분류기는 spam을 탐지하기 때문에, positive = "spam"을 설정한다.
 library(caret)
 confusionMatrix(sms_results$predict_type, sms_results$actual_type, positive = "spam")
 
