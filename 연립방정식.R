@@ -1,0 +1,5 @@
+A <- matrix(data=c(1, 1, 0.5, 1, 0.5, 0.9, 1, 0.4, 0.2), nrow=3, ncol=3, byrow=TRUE)    
+b <- matrix(data=c(0.0925*100, 0.0875*100, 0.067*100), nrow=3, ncol=1, byrow=FALSE)
+round(solve(A, b), 3)
+det(A)
+solve(A)
