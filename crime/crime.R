@@ -62,6 +62,7 @@ Reg2_step <- step(Reg2)
 summary(Reg2_step); vif(Reg2_step)
 
 scDensityReg <- as.data.frame(scale(myData[c(2:15, 18)]))
+Reg3 <- lm(formula = 성밀도 ~. , data = scDensityReg)
 Reg3_step <- step(lm(formula = 성밀도 ~. , data = scDensityReg))
 summary(Reg3_step); vif(Reg3_step)
 
@@ -69,3 +70,30 @@ summary(Reg3_step); vif(Reg3_step)
 # 검거율은 억지 요인으로서 인과관계가 있음을 보였다.
 # 젊은여자1인가구비율은 성범죄에서는 양의 인과관계를 보였지만, 그 외 범죄에서는 음의 관계를 보였다.
 # 추측하기에는 다른 범죄보다 성범죄에 우선적으로 노출되어서 그런 것인가? 하는 생각.
+
+### 주성분분석 ###
+
+# 변수를 취사선택했는데도 다중공선성이 5 이상인 변수들이 있음. 이를 제거하기 위해 주성분회귀 실시
+library(pls)
+PCR1 <- pcr(범밀도 ~. , data = crimeDensityReg[1:13, ], validation = "LOO") # 모든 데이터 다 쓰면 무조건 14개 나옴.
+summary(PCR1)
+plot(RMSEP(PCR1), legendpos = "topright") # RMSEP(제곱근평균제곱예측오차)를 이용하여 적절한 주성분의 갯수를 알아본다.(8개)
+plot(PCR1, ncomp = 8, asp = 1, line = T)
+
+PCR2 <- pcr(흉밀도 ~. , data = felonyDensityReg[1:13, ], validation = "LOO")
+summary(PCR2)
+plot(RMSEP(PCR2), legendpos = "topright") # 8 
+plot(PCR2, ncomp = 8, asp = 1, line = T)
+
+
+PCR3 <- pcr(성밀도 ~. , data = scDensityReg[1:13, ], validation = "LOO")
+summary(PCR3)
+plot(RMSEP(PCR3), legendpos = "topright") # 8 
+plot(PCR3, ncomp = 8, asp = 1, line = T)
+
+# 이를 통해 다중공선성을 완화했지만, 기존의 '어떤 어떤 요인'이 '주성분 8개가 들어간 범죄영향지수' 정도로 나타나버려서 직관성은 떨어지는 단점.
+
+
+### 회귀 외 다른 방법 ###
+
+
