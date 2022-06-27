@@ -33,19 +33,15 @@ scDensityCorr[15,]
 
 ### 우선 특별한 처리 없이 시행 ###
 
-#crimeDensityReg <- as.data.frame(myData[2:16]) # 자치구가 범주형이라 일단 뺌.
-#Reg1 <- lm(formula = 범밀도 ~. , data = crimeDensityReg) # ~.은 모든 변수 다쓰겠다는말. 
-#summary(Reg1) 
+crimeDensityReg <- as.data.frame(myData[2:16]) # 자치구가 범주형이라 일단 뺌.
+Reg1 <- lm(formula = 범밀도 ~. , data = crimeDensityReg)
+summary(Reg1) 
 # p-value가 다 엉망으로 나와서 전처리 추가시행(min-max normalization)
 # 데이터가 동일한 정도의 scale(중요도)로 반영되도록 하는 것이 정규화의 목표.
-#normalize <- function(x) {
-#  return((x - min(x)) / (max(x) - min(x)))
-#}
-# min-max 정규화. crimeDensityReg <- normalize(crimeDensityReg)
 
-#crimeDensityReg <- as.data.frame(scale(crimeDensityReg)) # Z-점수 정규화. 표준화라고도 함.
-#Reg1 <- lm(formula = 범밀도 ~. , data = crimeDensityReg)
-#summary(Reg1)
+crimeDensityReg <- as.data.frame(scale(crimeDensityReg)) # Z-점수 정규화. 표준화라고도 함.
+Reg1 <- lm(formula = 범밀도 ~. , data = crimeDensityReg)
+summary(Reg1) # 이래도 이상한건 같다. 숫자만 바꿨기때문일지도.
 
 # 필요 없는 변수들을 줄여보자. 
 library(car)
